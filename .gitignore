@@ -2,5 +2,5 @@ CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 .gitignore.swp
-video_converter
+video-converter
 Makefile
