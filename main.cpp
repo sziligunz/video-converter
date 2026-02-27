@@ -5,10 +5,6 @@
 namespace fs = std::filesystem;
 
 int convertMkvToMp4(const fs::path& folderPath) {
-    if (!folderPath.is_absolute()) {
-        throw std::runtime_error("Path must be absolute!");
-    }
-
     if (!fs::exists(folderPath) || !fs::is_directory(folderPath)) {
         throw std::runtime_error("Folder does not exist!");
     }
@@ -35,7 +31,7 @@ int convertMkvToMp4(const fs::path& folderPath) {
         }
         std::string command =
 
-            "ffmpeg -i \"" + inputPath.string() + "\" -c:v libx265 -preset medium -crf 23 -c:a copy \"" +
+            "ffmpeg -i \"" + inputPath.string() + "\" -c:v hevc_videotoolbox -preset medium -crf 23 -c:a copy \"" +
             outputPath.string() + "\"";
 
         std::cout << "Converting: " << inputPath.filename() << std::endl;
