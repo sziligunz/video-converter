@@ -4,7 +4,7 @@
 
 namespace fs = std::filesystem;
 
-int convertMkvToMp4(const fs::path& folderPath) {
+int convertMkvToMp4(const fs::path& folderPath, const char* mode) {
     if (!fs::exists(folderPath) || !fs::is_directory(folderPath)) {
         throw std::runtime_error("Folder does not exist!");
     }
@@ -29,10 +29,15 @@ int convertMkvToMp4(const fs::path& folderPath) {
             std::cout << "Skipping (already exists): " << outputPath.filename() << '\n';
             continue;
         }
-        std::string command =
-
-            "ffmpeg -i \"" + inputPath.string() + "\" -c:v hevc_videotoolbox -preset medium -crf 23 -c:a copy \"" +
+        std::string command = "";
+        if (mode == nullptr) {
+            command = "ffmpeg -i \"" + inputPath.string() + "\" -c:v hevc_videotoolbox -preset medium -crf 23 -c:a copy \"" +
             outputPath.string() + "\"";
+        }        
+        else if (strcmp(mode, "compact") == 0) {
+            command = "ffmpeg -i \"" + inputPath.string() + "\" -c:v hevc_videotoolbox -preset medium -crf 23 -b:v 4000k -c:a copy \"" +
+            outputPath.string() + "\"";
+        }
 
         std::cout << "Converting: " << inputPath.filename() << std::endl;
 
@@ -50,10 +55,16 @@ int convertMkvToMp4(const fs::path& folderPath) {
 
 int main(int argc, const char* argv[]) {
     try {
-        if (argc != 2) {
+        if (argc < 2) {
             throw std::runtime_error("Argument of folder's abolute path is missing.");
         }
-        int numberOfConversions = convertMkvToMp4(argv[1]);
+        int numberOfConversions = 0;
+        if (argc == 2) {
+            numberOfConversions = convertMkvToMp4(argv[1], nullptr);    
+        }
+        else {
+            numberOfConversions = convertMkvToMp4(argv[1], argv[2]);
+        } 
         std::cout << "Number of conversions: " << numberOfConversions << std::endl;
     } catch (std::runtime_error& error) {
         std::cout << "Error: " << error.what() << std::endl;
