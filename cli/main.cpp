@@ -44,10 +44,10 @@ bool runFfmpegConversion(std::__1::__fs::filesystem::directory_entry target, con
 }
 
 int convertMkvToMp4(const fs::path& folderPath, const char* mode) {
-    if (!fs::exists(folderPath) && !fs::is_directory(folderPath)) {
+    if (!fs::exists(folderPath) && fs::is_directory(folderPath)) {
         throw std::runtime_error("Folder does not exist!");
     }
-    if (!fs::exists(folderPath) && !fs::is_regular_file(folderPath)) {
+    if (!fs::exists(folderPath) && fs::is_regular_file(folderPath)) {
         throw std::runtime_error("File does not exist!");
     }
 

@@ -1,8 +1,1 @@
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-.gitignore.swp
-video-converter
-Makefile
-build/
 .DS_Store
