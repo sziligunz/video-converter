@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simple-qt-video-converter"
+version = "1.0.0"
+description = "A minimal, dark Qt6 desktop app for batch FFmpeg video conversion."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["PyQt6>=6.10.2,<7"]
+
+[project.gui-scripts]
+video-converter = "video_converter.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
